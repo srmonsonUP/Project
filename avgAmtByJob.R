@@ -9,11 +9,9 @@ avgAmtByJob = function(job, cardData, purchaseData){
   ids = subset(people, people$DEPARTMENT == job)$EMPL_ID #TODO: check department is the field I want
   #TODO: ensure I care about case sensitivity
   
-  amounts = subset(purchases, !is.na(match(purchases$"EMPL ID",ids)))
-  for(x in levels(amounts$'EMPL ID')){
-    if(!x %in% ids)
-      y
-  }
+  amounts = subset(purchases, purchases$"EMPL ID" %in% ids, select = c('EMPL ID', 'TRAN AMT'))
+  amounts = droplevels(amounts)
+
   m = mean(as.numeric(amounts$'TRAN AMT'), na.rm = T)
   
   f = mean(tapply(amounts$'EMPL ID', amounts$'EMPL ID', length), na.rm = T)
