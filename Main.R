@@ -31,6 +31,8 @@ main = function(cardData, purchaseData){
     }
     cat(count / nrow(purchases2))
     count = count + 1
+    if(count > 100)
+      break
   }
   
   result = data.frame(result)
@@ -42,7 +44,13 @@ calcScore = function(jobAvg, idAvg){
   
   amt = idAvg[[1]] - jobAvg[[1]]
   tran = idAvg[[2]] - jobAvg[[2]]
-  retail = 0 #TODO
+  retail = 0
+  for(x in names(idAvg[[3]])){
+    jobR = as.numeric(jobAvg[[3]][x])
+    if(is.na(jobR))
+      jobR = 0
+    retail = retail + as.numeric(idAvg[[3]][x]) - jobR
+  }
   wildcard = idAvg[[4]] - jobAvg[[4]]
   total = amt + tran + retail + wildcard
   c(amt, tran, retail, wildcard, total)
