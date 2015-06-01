@@ -1,11 +1,9 @@
-avgAmtByJob = function(job, cardData, purchaseData, wildcards = c("gift", "camera", "ipad", "ipod", "tv")){
+avgAmtByJob = function(id, wildcards = c("gift", "camera", "ipad", "ipod", "tv")){
   
-  people = read.csv(cardData, header = T)
+  if(is.null(people) || is.null(purchases))
+    return(NULL)
   
-  purchases = read.csv(purchaseData)
-  colnames(purchases) = lapply(purchases[1,], as.character)
-  purchases = purchases[c(-1,-2),]
-  
+  job = as.character(people[people$'EMPL_ID' == id, 'DEPARTMENT'])
   ids = subset(people, people$DEPARTMENT == job)$EMPL_ID #TODO: check department is the field I want
   #TODO: ensure I care about case sensitivity
   
@@ -25,12 +23,10 @@ avgAmtByJob = function(job, cardData, purchaseData, wildcards = c("gift", "camer
   list(m, f, r, w)
 }
 
-avgAmtByID = function(id, purchaseData, wildcards = c("gift", "camera", "ipad", "ipod", "tv")){
-  
-  purchases = read.csv(purchaseData)
-  colnames(purchases) = lapply(purchases[1,], as.character)
-  purchases = purchases[c(-1,-2),]
-  
+avgAmtByID = function(id, wildcards = c("gift", "camera", "ipad", "ipod", "tv")){
+    
+  if(is.null(people) || is.null(purchases))
+    return(NULL)
   
   amounts = subset(purchases, purchases$"EMPL ID" == id, select = c('EMPL ID', 'TRAN AMT', 'COST CODE', 'EXPENSE DESC'))
   amounts = droplevels(amounts)
