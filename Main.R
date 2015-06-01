@@ -1,5 +1,6 @@
 purchases = NULL
 people = NULL
+jobCache = list()
 
 load = function(cardData, purchaseData){
   if(is.null(people) && !is.null(cardData)){
@@ -24,19 +25,34 @@ main = function(cardData, purchaseData){
   count = 1
   for(x in purchases2$'EMPL ID'){
     if(cur != x){
+      
+#       if(x == 111380)
+#         browser()
+      
       cur = x
-      jobAvg = avgAmtByJob(x)
+      job = as.character(people[people$'EMPL_ID' == x, 'DEPARTMENT'])[1]
+      
+      if(length(job) == 0 || is.na(job))
+        next #Found a case where I don't have data on a purchaser (in this case id=111380)
+      
+      if(!is.null(jobCache[[job]])){
+        jobAvg = jobCache[[job]][[1]]
+      }else{
+        jobAvg = avgAmtByJob(job)
+        jobCache[[job]] = list(jobAvg)
+      }
+      
       idAvg = avgAmtByID(x)
       result = rbind(result, c(x, calcScore(jobAvg, idAvg)))
     }
-    cat(count / nrow(purchases2))
+    
+    
+    cat(count / nrow(purchases) * 100, "\n")
     count = count + 1
-    if(count > 100)
-      break
   }
   
   result = data.frame(result)
-  colnames(result) = c("ID", "Amount Difference", "Transation Difference", "Retail Difference", "Wildcard Difference", "Total Score")
+  colnames(result) = c("ID", "Amount Difference", "Transaction Difference", "Retail Difference", "Wildcard Difference", "Total Score")
   result
 }
 

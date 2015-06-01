@@ -1,9 +1,8 @@
-avgAmtByJob = function(id, wildcards = c("gift", "camera", "ipad", "ipod", "tv")){
+avgAmtByJob = function(job, wildcards = c("gift", "camera", "ipad", "ipod", "tv")){
   
   if(is.null(people) || is.null(purchases))
     return(NULL)
   
-  job = as.character(people[people$'EMPL_ID' == id, 'DEPARTMENT'])
   ids = subset(people, people$DEPARTMENT == job)$EMPL_ID #TODO: check department is the field I want
   #TODO: ensure I care about case sensitivity
   
