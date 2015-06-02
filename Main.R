@@ -1,19 +1,3 @@
-purchases = NULL
-people = NULL
-jobCache = list()
-
-load = function(cardData, purchaseData){
-  if(is.null(people) && !is.null(cardData)){
-    people <<- read.csv(cardData)
-  }
-  
-  if(is.null(purchases) && !is.null(purchaseData)){
-    purchases <<- read.csv(purchaseData)
-    colnames(purchases) <<- lapply(purchases[1,], as.character)
-    purchases <<- purchases[-1,]
-  }
-}
-
 main = function(cardData, purchaseData){
   
   load(cardData, purchaseData)
@@ -25,10 +9,6 @@ main = function(cardData, purchaseData){
   count = 1
   for(x in purchases2$'EMPL ID'){
     if(cur != x){
-      
-#       if(x == 111380)
-#         browser()
-      
       cur = x
       job = as.character(people[people$'EMPL_ID' == x, 'DEPARTMENT'])[1]
       
