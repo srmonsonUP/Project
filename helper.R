@@ -16,6 +16,8 @@ load = function(cardData, purchaseData){
     purchases <<- read.csv(purchaseData)
     colnames(purchases) <<- lapply(purchases[1,], as.character)
     purchases <<- purchases[-1,]
+    purchases$'TRAN AMT' <<- as.numeric(as.character(purchases$'TRAN AMT'))
+    purchases$'TRAN DATE' <<- as.POSIXlt(as.character(purchases$"TRAN DATE"), format = 'm/d/Y')
   }
 }
 
@@ -28,4 +30,17 @@ checkLoad = function(){
 clearPlot = function(){
   if(!is.null(dev.list()))
     dev.off(dev.list()["RStudioGD"]) #clears plots
+}
+
+clean = function(){
+  
+  for(x in 1:nrow(purchases)){
+    if(purchases[x,'TRAN AMT'] < 0){
+      amt = purchases[x, 'TRAN AMT']
+      id = purchases[x, 'EMPL ID']
+      purchases <<- purchases[-x,]
+      purchases <<- subset(purchases, !(purchases[,'TRAN AMT'] == -1 *amt & purchases[, 'EMPL ID'] == id))
+    }
+  }
+  
 }
