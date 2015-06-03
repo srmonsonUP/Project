@@ -22,6 +22,6 @@ amtPerTypeVend = function(){
     }
   }
   avgPerTypeVend = matrix(avgPerTypeVend, ncol = 3, byrow = T)
-  plot(as.numeric(avgPerTypeVend[,1]), as.numeric(avgPerTypeVend[,3]), col = avgPerTypeVend[,2], xlab = "Cost Code", ylab = "Mean Amt")
+  plot(as.numeric(avgPerTypeVend[,1]), as.numeric(avgPerTypeVend[,3]), col = avgPerTypeVend[,2], xlab = "Cost Code", ylab = "Mean Amt") #TODO: check what the color thing is being set to
   legend(x = "bottomright", legend = avgPerTypeVend[,2], col = avgPerTypeVend[,2])
 }
