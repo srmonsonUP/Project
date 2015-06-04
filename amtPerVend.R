@@ -15,5 +15,5 @@ amtPerVend = function(){
   values = as.numeric(as.character(lapply(1:length(categories), function(x) categories[[x]][[4]])))
   levels(names) = names
   plot(names, values, type = 'n', lty = NULL)
-  text(names, values+1000, round(values, 2), cex=0.8)
+  text(names, values+100, round(values), cex=0.8)
 }
