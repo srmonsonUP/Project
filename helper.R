@@ -18,6 +18,8 @@ load = function(cardData, purchaseData){
     purchases <<- purchases[-1,]
     purchases$'TRAN AMT' <<- as.numeric(as.character(purchases$'TRAN AMT'))
     purchases$'TRAN DATE' <<- as.Date(as.character(purchases$"TRAN DATE"), format = '%m/%d/%Y')
+    purchases$'COST CODE' <<- as.numeric(as.character(purchases$'COST CODE'))
+    purchases$'SIC CODE' <<- as.numeric(as.character(purchases$'SIC CODE'))
   }
 }
 
@@ -36,13 +38,14 @@ clean = function(){
   
   purchases <<- purchases[complete.cases(purchases),]
   
-  for(x in 1:nrow(purchases)){ #TODO check if this is incrementing logically
+  for(x in 1:nrow(purchases)){ 
+    if(x > nrow(purchases))
+      break
     if(purchases[x,'TRAN AMT'] < 0){
       amt = purchases[x, 'TRAN AMT']
       id = purchases[x, 'EMPL ID']
       purchases <<- purchases[-x,]
       purchases <<- subset(purchases, !(purchases[,'TRAN AMT'] == -1 *amt & purchases[, 'EMPL ID'] == id))
-      cat(paste(x, " "))
     }
   }
   
