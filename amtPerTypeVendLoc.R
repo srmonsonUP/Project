@@ -1,4 +1,4 @@
-amtPerTypeVendLoc = function(){
+amtPerTypeVendLoc = function(){ #Not done
   
   if(!checkLoad())
     load("Card Data.csv", "Purchasing Card Data.csv")
