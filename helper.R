@@ -1,5 +1,6 @@
 purchases = NULL
 people = NULL
+level = NULL
 jobCache = list()
 
 type = "COST CODE"
@@ -7,7 +8,7 @@ vendor = "SIC CODE"
 location = "VENDOR STATE"
 department = "DEPARTMENT"
 
-load = function(cardData, purchaseData){
+load = function(cardData, purchaseData, levelData){
   if(is.null(people) && !is.null(cardData)){
     people <<- read.csv(cardData)
   }
@@ -20,6 +21,12 @@ load = function(cardData, purchaseData){
     purchases$'TRAN DATE' <<- as.Date(as.character(purchases$"TRAN DATE"), format = '%m/%d/%Y')
     purchases$'COST CODE' <<- as.numeric(as.character(purchases$'COST CODE'))
     purchases$'SIC CODE' <<- as.numeric(as.character(purchases$'SIC CODE'))
+  }
+  
+  if(is.null(level) && !is.null(levelData)){
+    level <<- read.csv(levelData)
+    level$'TRAN AMT' <<- as.numeric(as.character(level$'TRAN AMT'))
+    level$'TRAN DATE' <<- as.Date(as.character(level$'TRAN DATE'), format = '%m/%d/%Y')
   }
 }
 
