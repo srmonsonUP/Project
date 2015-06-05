@@ -17,24 +17,49 @@ amtPerTypeVend = function(){
     avgPerTypeVend = c(avgPerTypeVend, c(rownames(avg)[x[i,1]], colnames(avg)[x[i,2]], avg[x[i,1], x[i,2]]))
   }
   avgPerTypeVend = matrix(avgPerTypeVend, ncol = 3, byrow = T)
-  avgPerTypeVend[,1] = as.factor(avgPerTypeVend[,1])
-  avgPerTypeVend[,2] = as.factor(avgPerTypeVend[,2])
-#   plot3d(avgPerTypeVend, xlab = "SIC Code", ylab = "Cost Code", zlab = "Mean Amt")
-  createCategories2(avgPerTypeVend)
+  
+  avgPerTypeVend[,1] = paste(avgPerTypeVend[,1], ".", avgPerTypeVend[,2], sep = "")
+  avgPerTypeVend[,2] = avgPerTypeVend[,3]
+  avgPerTypeVend = avgPerTypeVend[,-3]
+
+  categories = createCategories(as.data.frame(avgPerTypeVend))
+  names = as.factor(as.character(lapply(1:length(categories), function(x) categories[[x]][[3]])))
+  values = as.numeric(as.character(lapply(1:length(categories), function(x) categories[[x]][[4]])))
+  levels(names) = names
+  plot(names, values, type = 'n', lty = NULL)
+  text(names, values+300, round(values), cex=0.8)
 }
 
 createCategories2 = function(data){
   
-  vendCat = createCategories(data[,c(1,3)])
-  typeCat = createCategories(matrix(data[,2], data[,3], ncol = 2))
+  typeCat = createCategories(as.data.frame(data[,c(1,3)]))
+  vendCat = createCategories(as.data.frame(data[,c(2,3)]))
   
   while(nrow(data) > 0){
-    vendCatName = getCatName(data[1,1], vendCat)
-    typeCatName = getCatName(data[1,2], typeCat)
+    typeCatName = valToName(data[1,1], typeCat)
+    vendCatName = valToName(data[1,2], vendCat)
     
-    cat = data[getCatName(data[,1], vendCat) == vendCatName & getCatName(data[,2], typeCat) == typeCatName]
-    data = subset(data, !(getCatName(data[,1], vendCat) == vendCatName & getCatName(data[,2], typeCat) == typeCatName))
-    
+    cat = data[data[,1] %in% nameToVal(typeCatName, typeCat) & data[,2] %in% nameToVal(vendCatName, vendCat),]
+    #Keeping this in case I can use it later
+    #But I realized that the way I use the combinations of sic and cost that I need to do the categories the same way
+    #This could maybe be used to find combinations when you do sic and cost seperatly
   }
 }
 
+valToName = function(num, data){
+  
+  num = as.numeric(as.character(num))
+  for(i in 1:length(data)){
+    if(num %in% data[[i]][[1]])
+      return(data[[i]][[3]])
+  }
+}
+
+nameToVal = function(name, data){
+  
+  for(i in 1:length(data)){
+    if(name == data[[i]][[3]])
+      return(data[[i]][[1]])
+  }
+  
+}
