@@ -49,4 +49,6 @@ clean = function(){
     }
   }
   
+  purchases <<- subset(purchases, !(purchases[,vendor] == 5661))
+  
 }
