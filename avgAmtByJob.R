@@ -3,8 +3,7 @@ avgAmtByJob = function(job, wildcards = c("gift", "camera", "ipad", "ipod", "tv"
   if(is.null(people) || is.null(purchases))
     return(NULL)
   
-  ids = subset(people, people$DEPARTMENT == job)$EMPL_ID #TODO: check department is the field I want
-  #TODO: ensure I care about case sensitivity
+  ids = subset(people, people$DEPARTMENT == job)$EMPL_ID
   
   amounts = subset(purchases, purchases$"EMPL ID" %in% ids, select = c('EMPL ID', 'TRAN AMT', 'COST CODE', 'EXPENSE DESC'))
   amounts = droplevels(amounts)
