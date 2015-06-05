@@ -16,8 +16,11 @@ amtPerType = function(){
   names = as.factor(as.character(lapply(1:length(categories), function(x) categories[[x]][[3]])))
   values = as.numeric(as.character(lapply(1:length(categories), function(x) categories[[x]][[4]])))
   levels(names) = names
-  plot(names, values, type = 'n', lty = NULL)
-  text(names, values+100, round(values), cex=0.8)
+
+#   plot(names, values, type = 'n', lty = NULL)
+#   text(names, values+500, round(values), cex=0.8)
+
+  return(data.frame(names, values))
 }
 
 
@@ -41,8 +44,7 @@ createCategories = function(data){
     count = count + 1
     data = subset(data, !(as.numeric(as.character(data[,2])) >= min & as.numeric(as.character(data[,2])) <= max))
     
-    if(cat[[4]] < 50000) #Temporarily remove outlier
-      categories = c(categories, list(cat))
+    categories = c(categories, list(cat))
   }
   categories
   

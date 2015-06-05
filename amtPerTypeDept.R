@@ -1,4 +1,4 @@
-amtPerItemDept = function(){
+amtPerItemDept = function(){ #Not done
   
   if(!checkLoad())
     load("Card Data.csv", "Purchasing Card Data.csv")

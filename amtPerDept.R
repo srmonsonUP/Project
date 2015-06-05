@@ -1,4 +1,5 @@
 amtPerDept = function(){
+  require(ggplot2)
   
   if(!checkLoad())
     load("Card Data.csv", "Purchasing Card Data.csv")
@@ -14,5 +15,7 @@ amtPerDept = function(){
   avgPerDept[,2] = as.numeric(as.character(avgPerDept[,2]))
   
   plot(as.factor(avgPerDept[,1]), avgPerDept[,2])
-  text(avgPerDept[,1],avgPerDept[,2]+100, round(avgPerDept[,2]), cex = 0.8)
+  text(avgPerDept[,1],avgPerDept[,2]+50, round(avgPerDept[,2]), cex = 0.8)
+  
+  return(avgPerDept)
 }
