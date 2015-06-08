@@ -30,7 +30,7 @@ createCategories = function(data){
     max = val + val * thresh
     
     cat = data[as.numeric(as.character(data[,2])) >= min & as.numeric(as.character(data[,2])) <= max, ]
-    avgSD = mean(cat[,3], na.rm = T)              #TODO: check if this is what I should use
+    avgSD = mean(as.numeric(as.character(cat[,3])), na.rm = T)              #TODO: check if this is what I should use
     cat = c(cat[,1:2], c(paste("Value ", LETTERS[floor(count/26)], LETTERS[count%%26 + 1], sep = ""), val, avgSD))
     count = count + 1
     data = subset(data, !(as.numeric(as.character(data[,2])) >= min & as.numeric(as.character(data[,2])) <= max))
