@@ -13,14 +13,9 @@ amtPerType = function(){
  
   
   categories = createCategories(avgPerType)
-  names = as.factor(as.character(lapply(1:length(categories), function(x) categories[[x]][[3]])))
-  values = as.numeric(as.character(lapply(1:length(categories), function(x) categories[[x]][[4]])))
-  levels(names) = names
+ 
 
-#   plot(names, values, type = 'n', lty = NULL)
-#   text(names, values+500, round(values), cex=0.8)
-
-  return(data.frame(names, values))
+  return(categories)
 }
 
 
