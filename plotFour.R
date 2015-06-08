@@ -39,7 +39,7 @@ plotFour = function(){
     points(x = purchases2[i, department], y = purchases2[i, 'TRAN AMT'], col = 'red', cex = 1.5)
     sdev = (purchases2[i, 'TRAN AMT'] - amtPerDept[amtPerDept[,1] == purchases2[i, department],2]) / amtPerDept[amtPerDept[,1] ==purchases2[i, department],3]
     usr = par("usr")
-    text(usr[1], usr[4], paste("SD =", round(sdev, 2)), col = 'red', cex = 1.5, adj = c(0,1))
+    text(usr[1], usr[4], paste("Z-score =", round(sdev, 2)), col = 'red', cex = 1.5, adj = c(0,1))
     
     
     plot(typeData[,1], typeData[,2], main = "Amount per Cost Code")
@@ -48,7 +48,7 @@ plotFour = function(){
     points(x = typeData[typeData[,1] == section, 1], y = purchases2[i, 'TRAN AMT'], col = 'red', cex = 1.5)
     sdev = (purchases2[i, 'TRAN AMT'] - typeData[typeData[,1] == section, 2]) / typeData[typeData[,1] == section, 3]
     usr = par("usr")
-    text(usr[1], usr[4], paste("SD =", round(sdev, 2)), col = 'red', cex = 1.5, adj = c(0,1))
+    text(usr[1], usr[4], paste("Z-score =", round(sdev, 2)), col = 'red', cex = 1.5, adj = c(0,1))
     
     
     plot(vendData[,1], vendData[,2], main = "Amount per SIC Code")
@@ -57,7 +57,7 @@ plotFour = function(){
     points(x = vendData[vendData[,1] == section, 1], y = purchases2[i, 'TRAN AMT'], col = 'red', cex = 1.5)
     sdev = (purchases2[i, 'TRAN AMT'] - vendData[vendData[,1] == section, 2]) / vendData[vendData[,1] == section, 3]
     usr = par("usr")
-    text(usr[1], usr[4], paste("SD =", round(sdev, 2)), col = 'red', cex = 1.5, adj = c(0,1))
+    text(usr[1], usr[4], paste("Z-score =", round(sdev, 2)), col = 'red', cex = 1.5, adj = c(0,1))
     
     
     plot(typeVendData[,1], typeVendData[,2], main = "Amount per Cost Code and SIC Code")
@@ -66,7 +66,7 @@ plotFour = function(){
     points(x = typeVendData[typeVendData[,1] == section,1], y = purchases2[i, 'TRAN AMT'], col = 'red', cex = 1.5)
     sdev = (purchases2[i, 'TRAN AMT'] - typeVendData[typeVendData[,1] == section, 2]) / typeVendData[typeVendData[,1] == section, 3]
     usr = par("usr")
-    text(usr[1], usr[4], paste("SD =", round(sdev, 2)), col = 'red', cex = 1.5, adj = c(0,1))
+    text(usr[1], usr[4], paste("Z-score =", round(sdev, 2)), col = 'red', cex = 1.5, adj = c(0,1))
     
     
    
