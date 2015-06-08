@@ -21,9 +21,9 @@ plotFour = function(){
 
   
   purchases2 = merge(purchases, people, by.x = 'EMPL ID', by.y = 'EMPL_ID')
-  cont = 'y'
+  cont = ''
   i = 1
-  while(cont == 'y'){
+  while(cont == ''){
     clearPlot()
     par(mfrow = c(2,2))
     
@@ -47,10 +47,10 @@ plotFour = function(){
     plot(typeVendNames, typeVendValues, main = "Amount per Cost Code and SIC Code")
     text(typeVendNames, typeVendValues+300, round(typeVendValues), cex=0.8)
     section = findSection(amtPerTypeVend, as.numeric(paste(purchases2[i, type], purchases2[i, vendor], sep = '.')))
-    points(x = section, y = purchases2[i, 'TRAN AMT'], col = 'red')
+    points(x = match(section, levels(typeVendNames)), y = purchases2[i, 'TRAN AMT'], col = 'red')
     
     
-    cont = readline("Plot next? (y/n) \n")
+    cont = readline("Plot next? Any character to quit")
     i = i + 1
   }
 }
