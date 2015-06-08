@@ -9,18 +9,21 @@ amtPerTypeVend = function(){
   clean()
  
   avg = tapply(purchases$'TRAN AMT', list(purchases[,type], purchases[,vendor]), mean, na.rm=T)
+  sd = tapply(purchases$'TRAN AMT', list(purchases[,type], purchases[,vendor]), sd, na.rm=T)
   
   x = which(avg > 0, arr.ind = T)
+  y = which(sd > 0, arr.ind = T)
   
   avgPerTypeVend = c()
   for(i in 1:nrow(x)){
-    avgPerTypeVend = c(avgPerTypeVend, c(rownames(avg)[x[i,1]], colnames(avg)[x[i,2]], avg[x[i,1], x[i,2]]))
+    avgPerTypeVend = c(avgPerTypeVend, c(rownames(avg)[x[i,1]], colnames(avg)[x[i,2]], avg[x[i,1], x[i,2]], sd[x[i,1], x[i,2]]))
   }
-  avgPerTypeVend = matrix(avgPerTypeVend, ncol = 3, byrow = T)
+  avgPerTypeVend = matrix(avgPerTypeVend, ncol = 4, byrow = T)
   
   avgPerTypeVend[,1] = paste(avgPerTypeVend[,1], ".", avgPerTypeVend[,2], sep = "")
   avgPerTypeVend[,2] = avgPerTypeVend[,3]
-  avgPerTypeVend = avgPerTypeVend[,-3]
+  avgPerTypeVend[,3] = avgPerTypeVend[,4]
+  avgPerTypeVend = avgPerTypeVend[,-4]
 
   categories = createCategories(as.data.frame(avgPerTypeVend))
  

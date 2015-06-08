@@ -7,10 +7,9 @@ amtPerType = function(){
   clean()
   
   avg = tapply(purchases[,'TRAN AMT'], purchases[,type], mean, na.rm = T)
+  sd = tapply(purchases[,'TRAN AMT'], purchases[,type], sd, na.rm = T)
 
-  avgPerType = as.data.frame(matrix(c(names(avg), as.vector(avg)), ncol = 2))
-#   plot(as.factor(avgPerType[,1]), as.numeric(as.character(avgPerType[,2])), xlab = "Cost Code", ylab = "Mean Amt", main = "Mean Amt / Cost Code")
- 
+  avgPerType = as.data.frame(matrix(c(names(avg), as.vector(avg), as.vector(sd)), ncol = 3))
   
   categories = createCategories(avgPerType)
  
@@ -23,11 +22,7 @@ createCategories = function(data){
   
   thresh = 0.05
   categories = c()
-  
-#   if(!is.numeric(data[,2])){                              I tried to do this to reduce
-#     data[,2] = as.numeric(as.character(data[,2]))         the conversions below
-#   }                                                       but it didn't seem to work
-  
+
   count = 0
   while(nrow(data) > 0){
     val = as.numeric(as.character(data[1,2]))
@@ -35,12 +30,12 @@ createCategories = function(data){
     max = val + val * thresh
     
     cat = data[as.numeric(as.character(data[,2])) >= min & as.numeric(as.character(data[,2])) <= max, ]
-    cat = c(cat, c(paste("Value ", LETTERS[floor(count/26)], LETTERS[count%%26 + 1], sep = ""), val))
+    avgSD = mean(cat[,3], na.rm = T)              #TODO: check if this is what I should use
+    cat = c(cat[,1:2], c(paste("Value ", LETTERS[floor(count/26)], LETTERS[count%%26 + 1], sep = ""), val, avgSD))
     count = count + 1
     data = subset(data, !(as.numeric(as.character(data[,2])) >= min & as.numeric(as.character(data[,2])) <= max))
     
     categories = c(categories, list(cat))
   }
   categories
-  
 }
