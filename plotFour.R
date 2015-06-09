@@ -1,5 +1,3 @@
-library(ggplot2)
-
 plotFour = function(){
   
   amtPerDept = amtPerDept()
