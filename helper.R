@@ -8,7 +8,7 @@ vendor = "SIC CODE"
 location = "VENDOR STATE"
 department = "DEPARTMENT"
 
-load = function(cardData, purchaseData, levelData){
+load = function(cardData, purchaseData, levelData = NULL){
   if(is.null(people) && !is.null(cardData)){
     people <<- read.csv(cardData)
   }
@@ -59,3 +59,10 @@ clean = function(){
   purchases <<- subset(purchases, !(purchases[,vendor] == 5661))
   
 }
+
+resetPar <- function() {
+  dev.new()
+  op <- par(no.readonly = TRUE)
+  dev.off()
+  op
+} #Copied from http://stackoverflow.com/questions/5789982/reset-par-to-the-default-values-at-startup
