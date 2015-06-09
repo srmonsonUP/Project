@@ -17,20 +17,18 @@ boxPlotData = function(sel = vendor){  #Temporary initial value
   data = cbind(avg, med, q1, q3)
   
   hc = hclust(dist(data), method = "single")
-  plot(hc)
   
-  cat = cutree(hc, k = floor(sqrt(nrow(purchases) / 2)))
+  cat = cutree(hc, k = min(32, floor(sqrt(nrow(purchases) / 2)))) #Max groupings is apperenlty 32
   
   data = merge.data.frame(data, cbind(names(cat), category = as.vector(cat)), by.x = "row.names", by.y = "V1")
   
-  groups = tapply(data$Row.names, data$category, function(x) x)
-  groups = lapply(groups, function(x) as.numeric(x))
+  groups = as.character(tapply(data$Row.names, data$category, function(x) x))
+  if(sel != department)
+    groups = lapply(groups, function(x) as.numeric(x))
   
   avg = lapply(groups, function(x) mean(purchases[purchases[,sel] %in% x, 'TRAN AMT'], na.rm=T))
-  med = lapply(groups, function(x) median(purchases[purchases[,sel] %in% x, 'TRAN AMT'], na.rm=T))
-  q1 = lapply(groups, function(x) quantile(purchases[purchases[,sel] %in% x, 'TRAN AMT'], na.rm=T, probs = 0.25))
-  q3 = lapply(groups, function(x) quantile(purchases[purchases[,sel] %in% x, 'TRAN AMT'], na.rm=T, probs = 0.75))
-  
-  x
+  box = lapply(groups, function(x) boxplot(purchases[purchases[,sel] %in% x, 'TRAN AMT'], plot=F, outline = F))
+#   box = lapply(box, function(x) x[-4]) #Removes mean?
+  cbind(groups, avg, box)
   
 }
