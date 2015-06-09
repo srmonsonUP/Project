@@ -7,18 +7,16 @@ amtPerType = function(){
   clean()
   
   avg = tapply(purchases[,'TRAN AMT'], purchases[,type], mean, na.rm = T)
-  sd = tapply(purchases[,'TRAN AMT'], purchases[,type], sd, na.rm = T)
 
-  avgPerType = as.data.frame(matrix(c(names(avg), as.vector(avg), as.vector(sd)), ncol = 3))
+  avgPerType = as.data.frame(matrix(c(names(avg), as.vector(avg)), ncol = 2))
   
-  categories = createCategories(avgPerType)
- 
+  categories = createCategories(avgPerType, type)
 
   return(categories)
 }
 
 
-createCategories = function(data){
+createCategories = function(data, selection){
   
   thresh = 0.05
   categories = c()
@@ -30,10 +28,19 @@ createCategories = function(data){
     max = val + val * thresh
     
     cat = data[as.numeric(as.character(data[,2])) >= min & as.numeric(as.character(data[,2])) <= max, ]
-    avgSD = mean(as.numeric(as.character(cat[,3])), na.rm = T)              #TODO: check if this is what I should use
+    data = subset(data, !(as.numeric(as.character(data[,2])) >= min & as.numeric(as.character(data[,2])) <= max))
+    
+    if(length(selection) == 2){
+      val = mean(purchases[as.numeric(paste(purchases[,type], purchases[,vendor], sep = ".")) %in% cat[,1], ]$'TRAN AMT', na.rm = T)
+      avgSD = sd(purchases[as.numeric(paste(purchases[,type], purchases[,vendor], sep = ".")) %in% cat[,1], ]$'TRAN AMT', na.rm = T)
+    }else{
+      val = mean(purchases[purchases[,selection] %in% cat[,1], ]$'TRAN AMT', na.rm = T)
+      avgSD = sd(purchases[purchases[,selection] %in% cat[,1], ]$'TRAN AMT', na.rm = T)
+    }
+      
     cat = c(cat[,1:2], c(paste("Value ", LETTERS[floor(count/26)], LETTERS[count%%26 + 1], sep = ""), val, avgSD))
     count = count + 1
-    data = subset(data, !(as.numeric(as.character(data[,2])) >= min & as.numeric(as.character(data[,2])) <= max))
+   
     
     categories = c(categories, list(cat))
   }
