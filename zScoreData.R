@@ -15,6 +15,7 @@ zScoreData = function(sel){
     sd = tapply(purchases$'TRAN AMT', purchases[, sel], sd, na.rm = T)
     data = cbind(avg, sd)
     colnames(data) = c("mean", "sd")
+    data = data[!is.na(data[,2]) & data[,2] != 0,]
     
   }else if(length(sel) == 2){
     
@@ -35,8 +36,8 @@ zScoreData = function(sel){
   
   hc = hclust(dist(data), method = "single")
   
-  cat = cutree(hc, k = min(32, floor(sqrt(nrow(purchases) / 2)))) #Max groupings is apperently 32
-  
+  cat = cutree(hc, k = min(31, floor(sqrt(nrow(purchases) / 2)))) #Max groupings is apperently 32
+  #TODO: figure out why I had to change this to 31
   data = merge.data.frame(data, cbind(names(cat), category = as.vector(cat)), by.x = "row.names", by.y = "V1")
   
   groups = tapply(data$Row.names, data$category, function(x) x)
