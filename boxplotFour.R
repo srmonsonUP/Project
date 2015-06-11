@@ -107,12 +107,3 @@ boxplotFour = function(){
     cont = readline("Enter to cont")
   }
 }
-
-
-nameGen = function(len)
-{
-  n = c()
-  for(i in 1:len)
-    n = c(n, paste("Group ", LETTERS[floor(i/26)], LETTERS[i%%26], sep = ""))
-  n
-}
