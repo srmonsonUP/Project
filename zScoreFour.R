@@ -22,7 +22,7 @@ zScoreFour = function(){
     group = which(group == T, arr.ind = T)[1]
     if(is.na(group)){
       usr = par("usr")
-      text(usr[1], usr[4], "No SD available", col = 'yellow', cex = 1.5, adj = c(0,1))
+      text(usr[1], usr[4], "No SD available", col = 'blue', cex = 1.5, adj = c(0,1))
     }else{
       z = (amt - dep[group, 2][[1]]) / dep[group,3][[1]]
       if(z > 1.96 || z < -1.96){
@@ -43,9 +43,9 @@ zScoreFour = function(){
     group = which(group == T, arr.ind = T)[1]
     if(is.na(group)){
       usr = par("usr")
-      text(usr[1], usr[4], "No SD available", col = 'yellow', cex = 1.5, adj = c(0,1))
+      text(usr[1], usr[4], "No SD available", col = 'blue', cex = 1.5, adj = c(0,1))
     }else{
-      z = (amt - dep[group, 2][[1]]) / dep[group,3][[1]]
+      z = (amt - typ[group, 2][[1]]) / typ[group,3][[1]]
       
       if(z > 1.96 || z < -1.96){
         usr = par("usr")
@@ -65,7 +65,7 @@ zScoreFour = function(){
     group = which(group == T, arr.ind = T)[1]
     if(is.na(group)){
       usr = par("usr")
-      text(usr[1], usr[4], "No SD available", col = 'yellow', cex = 1.5, adj = c(0,1))
+      text(usr[1], usr[4], "No SD available", col = 'blue', cex = 1.5, adj = c(0,1))
     }else{
       z = (amt - ven[group, 2][[1]]) / ven[group,3][[1]]
      
@@ -87,9 +87,9 @@ zScoreFour = function(){
     group = which(group == T, arr.ind = T)[1]
     if(is.na(group)){
       usr = par("usr")
-      text(usr[1], usr[4], "No SD available", col = 'yellow', cex = 1.5, adj = c(0,1))
+      text(usr[1], usr[4], "No SD available", col = 'blue', cex = 1.5, adj = c(0,1))
     }else{
-      z = (amt - dep[group, 2][[1]]) / dep[group,3][[1]]
+      z = (amt - typVen[group, 2][[1]]) / typVen[group,3][[1]]
       
       if(z > 1.96 || z < -1.96){
         usr = par("usr")
