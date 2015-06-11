@@ -49,7 +49,7 @@ boxplotFour = function(){
     c = 'green'
     
     
-    bxp(gtyp, outline = F)
+    bxp(gtyp, outline = F, main = "Amount Per Cost Code")
     points(1:length(typ[,2]), as.vector(unlist(typ[,2])))
     group = lapply(typ[,1], function(x) purchases[i, type] %in% x)
     group = which(group == T, arr.ind = T)[1]
@@ -67,7 +67,7 @@ boxplotFour = function(){
     c = 'green'
     
     
-    bxp(gven, outline = F)
+    bxp(gven, outline = F, main = "Amount per SIC Code")
     points(1:length(ven[,2]), as.vector(unlist(ven[,2])))
     group = lapply(ven[,1], function(x) purchases[i, vendor] %in% x)
     group = which(group == T, arr.ind = T)[1]
@@ -85,7 +85,7 @@ boxplotFour = function(){
     c = 'green'
     
     
-    bxp(gtypven, outline = F)
+    bxp(gtypven, outline = F, main = "Amount per Cost,SIC Code")
     points(1:length(typVen[,2]), as.vector(unlist(typVen[,2])))
     group = lapply(typVen[,1], function(x) paste(purchases[i, type], purchases[i, vendor], sep = ".") %in% x)
     group = which(group == T, arr.ind = T)[1]
