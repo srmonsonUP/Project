@@ -1,5 +1,4 @@
 amtPerDept = function(){
-  require(ggplot2)
   
   if(!checkLoad())
     load("Card Data.csv", "Purchasing Card Data.csv")

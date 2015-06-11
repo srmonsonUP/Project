@@ -4,7 +4,6 @@ boxPlotData = function(sel = vendor){  #Temporary initial value
     load("Card Data.csv", "Purchasing Card Data.csv")
   
   clean()
-  resetPar()
   
   if(department %in% sel)
     purchases = merge(purchases, people, by.x = 'EMPL ID', by.y = 'EMPL_ID')
@@ -40,7 +39,7 @@ boxPlotData = function(sel = vendor){  #Temporary initial value
     colnames(data) = c("name", "mean", "median", "q1", "q3")
     rownames(data) = data$name
     data = data[,-1]
-    #Lots of annoying erros about rownames
+
   }
   
   
